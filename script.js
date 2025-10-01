@@ -268,6 +268,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para animar contadores
     function animateCounter(element, target, duration = 2000) {
+        // Em dispositivos móveis ou se o elemento não estiver visível, mostrar valor direto
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if (isMobile || !element.offsetParent) {
+            // Mostrar valor final imediatamente em dispositivos móveis
+            if (target >= 1000) {
+                element.textContent = (target / 1000).toFixed(target >= 10000 ? 0 : 1) + 'K';
+            } else {
+                element.textContent = target;
+            }
+            return;
+        }
+
         const start = 0;
         const startTime = performance.now();
 
@@ -301,8 +314,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Configurar Intersection Observer para estatísticas
     const statsObserverOptions = {
-        threshold: 0.3,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.1,
+        rootMargin: '0px 0px -20px 0px'
     };
 
     if ('IntersectionObserver' in window) {
@@ -315,7 +328,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     const countElements = entry.target.querySelectorAll('[data-count]');
                     countElements.forEach(element => {
                         const target = parseInt(element.dataset.count);
-                        animateCounter(element, target);
+                        // Garantir que o número seja exibido
+                        if (!element.textContent || element.textContent === '0') {
+                            animateCounter(element, target);
+                        }
                     });
 
                     // Animar barras de progresso
@@ -347,7 +363,39 @@ document.addEventListener('DOMContentLoaded', function() {
         if (statsSection) {
             statsObserver.observe(statsSection);
         }
+    } else {
+        // Fallback: mostrar números diretamente se IntersectionObserver não estiver disponível
+        const statsSection = document.querySelector('.estatisticas');
+        if (statsSection) {
+            const countElements = statsSection.querySelectorAll('[data-count]');
+            countElements.forEach(element => {
+                const target = parseInt(element.dataset.count);
+                if (target >= 1000) {
+                    element.textContent = (target / 1000).toFixed(target >= 10000 ? 0 : 1) + 'K';
+                } else {
+                    element.textContent = target;
+                }
+            });
+        }
     }
+
+    // Garantir que os números sejam exibidos no carregamento em dispositivos móveis
+    window.addEventListener('load', function() {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        if (isMobile) {
+            const countElements = document.querySelectorAll('[data-count]');
+            countElements.forEach(element => {
+                if (!element.textContent || element.textContent === '0') {
+                    const target = parseInt(element.dataset.count);
+                    if (target >= 1000) {
+                        element.textContent = (target / 1000).toFixed(target >= 10000 ? 0 : 1) + 'K';
+                    } else {
+                        element.textContent = target;
+                    }
+                }
+            });
+        }
+    });
 
     // ===================== ANIMAÇÕES DE CONTATO =====================
 
