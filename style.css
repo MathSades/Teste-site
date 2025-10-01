@@ -1652,7 +1652,7 @@ body {
 /* Estilos do Carrossel de Histórias */
 .stories-carousel {
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   margin: 0 auto;
   position: relative;
 }
@@ -1685,7 +1685,7 @@ body {
 
 .story-cover {
   width: 100%;
-  height: 300px;
+  height: 400px;
   object-fit: cover;
   display: block;
   filter: brightness(0.9);
@@ -1781,11 +1781,11 @@ body {
 /* Responsividade do Carrossel */
 @media (max-width: 768px) {
   .stories-carousel {
-    max-width: 280px;
+    max-width: 300px;
   }
 
   .story-cover {
-    height: 250px;
+    height: 350px;
   }
 
   .story-info {
@@ -3573,34 +3573,22 @@ body {
   }
 }
 
-.avatar-ring-animated::before {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #fd79a8, #fdcb6e);
-  z-index: 1;
-}
-
-.avatar-inner {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
+.avatar-ring-animated {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.avatar-inner .avatar-icon {
+.avatar-ring-animated .avatar-icon {
   font-size: 4rem;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  z-index: 2;
 }
 
 .status-indicator {
   position: absolute;
-  bottom: 10px;
-  right: -15px;
+  bottom: -10px;
+  right: -20px;
   background: rgba(255, 255, 255, 0.95);
   padding: 0.6rem 1rem;
   border-radius: 25px;
@@ -3611,6 +3599,7 @@ body {
   font-weight: 600;
   color: #27ae60;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 }
 
 .status-dot-animated {
