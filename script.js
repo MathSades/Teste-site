@@ -195,13 +195,17 @@ document.addEventListener('DOMContentLoaded', function() {
     let autoSlideInterval;
 
     function updateCarousel() {
+        if (!slides.length || !dots.length || !track) return;
+        
         // Remover classe active de todos os slides e dots
         slides.forEach(slide => slide.classList.remove('active'));
         dots.forEach(dot => dot.classList.remove('active'));
 
         // Adicionar classe active ao slide e dot atual
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
+        if (slides[currentSlide] && dots[currentSlide]) {
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
 
         // Mover o track
         track.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -218,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function startAutoSlide() {
-        autoSlideInterval = setInterval(nextSlide, 4000); // 4 segundos
+        autoSlideInterval = setInterval(nextSlide, 10000); // 10 segundos
     }
 
     function stopAutoSlide() {
